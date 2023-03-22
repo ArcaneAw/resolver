@@ -1,7 +1,7 @@
 
 			  game:GetService("StarterGui"):SetCore("SendNotification", { 
                     Title = "Resolver";
-                    Text = "reexecute if u respawn";
+                    Text = "Resolve any Desync";
                     Icon = "rbxthumb://type=Asset&id=&w=150&h=150"})
                     Duration = 6;
 
