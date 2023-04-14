@@ -1,0 +1,56 @@
+local SendNotif = function(text)
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Universal",
+		Text = text,
+		Duration = 2.5
+	})
+end
+
+-- Code
+
+if not Resolver then
+	SendNotif("Please use loadstring!")
+	return
+end
+
+game:GetService("UserInputService").InputBegan:Connect(function(key)
+	if key.KeyCode == Resolver.Bind and not game:GetService("UserInputService"):GetFocusedTextBox() then
+		if Resolver.Enabled then
+			Resolver.Enabled = false
+
+			if Resolver.Notify then
+				SendNotif("Disabled")
+			end
+		else
+			Resolver.Enabled = true
+			
+			if Resolver.Notify then
+				SendNotif("Enabled")
+			end
+		end
+	end
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+	if Resolver.Enabled then
+		for i, Target in pairs(game:GetService("Players"):GetPlayers()) do
+			if Target ~= game:GetService("Players").LocalPlayer then
+				for i, Part in pairs(Target.Character:GetDescendants()) do
+					if Part:IsA("BasePart") then
+						if Resolver.Type == "With Pred" then
+							Part.Velocity =
+								Target.Character.Humanoid.MoveDirection * Resolver.Prediction
+							Part.AssemblyLinearVelocity =
+								Target.Character.Humanoid.MoveDirection * Resolver.Prediction
+						else
+							Part.Velocity =
+								Part.Velocity * 0
+							Part.AssemblyLinearVelocity =
+								Part.AssemblyLinearVelocity * 0
+						end
+					end
+				end
+			end
+		end
+	end
+end)
